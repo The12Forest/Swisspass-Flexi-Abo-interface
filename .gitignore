@@ -2,3 +2,4 @@ node_modules
 LOG/*
 package-lock.json
 data
+Backend/saves
