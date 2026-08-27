@@ -1,2 +1,380 @@
 2026-08-27 14:36:53.899    TokenRouter:    Token refresh error: Token refresh failed (400): {"error":"invalid_grant"}
 2026-08-27 14:41:52.827    TokenRouter:    Token refresh error: Token refresh failed (400): {"error":"invalid_grant"}
+2026-08-27 14:59:18.739    Server:         TokenManager start failed: No refresh token available. Please log in via the browser extension or paste a refresh token.
+2026-08-27 14:59:18.739    Server:         The server is still running. Update the refresh token via POST /api/auth/token
+2026-08-27 14:59:18.739    Server:         Server running at http://localhost:3001
+2026-08-27 15:13:19.438    Server:         Server running at http://localhost:3001
+2026-08-27 15:13:19.620    Server:         TokenManager start failed: Token refresh failed (400): <html>
+<head>
+<title>
+400 Bad Request
+</title>
+</head>
+<body>
+<h1>Bad Request</h1>
+The server detected a syntax error in your request.<br>
+Check your request and all parameters.<br>
+
+<p>Your request ID was: apBUD407WIjOth3CcMwU9QAABRI</p>
+ 
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a31c0501184ac01e',t:'MTc4Nzg0MzU5OQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
+
+2026-08-27 15:13:19.620    Server:         The server is still running. Update the refresh token via POST /api/auth/token
+2026-08-27 15:13:25.992    Server:         Server running at http://localhost:3001
+2026-08-27 15:13:26.086    Server:         TokenManager start failed: Token refresh failed (400): <html>
+<head>
+<title>
+400 Bad Request
+</title>
+</head>
+<body>
+<h1>Bad Request</h1>
+The server detected a syntax error in your request.<br>
+Check your request and all parameters.<br>
+
+<p>Your request ID was: apBUFtE8Ygyo3JrRXTwhOgAADCg</p>
+ 
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a31c052999a7f0d3',t:'MTc4Nzg0MzYwNg=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
+
+2026-08-27 15:13:26.086    Server:         The server is still running. Update the refresh token via POST /api/auth/token
+2026-08-27 15:14:07.074    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 15:14:07.074    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 15:14:07.074    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 15:14:20.087    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 15:14:20.087    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 15:14:20.087    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 15:14:32.965    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 15:14:32.965    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 15:14:32.965    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 15:14:33.122    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 15:14:33.122    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 15:14:33.122    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 15:14:35.027    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 15:14:35.027    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 15:14:35.027    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 15:18:59.743    TokenRouter:    [object Object]
+2026-08-27 15:18:59.765    Server:         Server running at http://localhost:3001
+2026-08-27 15:18:59.861    Server:         TokenManager start failed: Token refresh failed (400): <html>
+<head>
+<title>
+400 Bad Request
+</title>
+</head>
+<body>
+<h1>Bad Request</h1>
+The server detected a syntax error in your request.<br>
+Check your request and all parameters.<br>
+
+<p>Your request ID was: apBVY6m2MwQaC1meSgQ1qAAAA20</p>
+ 
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a31c0d4f9fe299bc',t:'MTc4Nzg0MzkzOQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
+
+2026-08-27 15:18:59.861    Server:         The server is still running. Update the refresh token via POST /api/auth/token
+2026-08-27 15:19:04.221    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 15:19:04.221    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 15:19:04.221    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 15:19:44.436    TokenRouter:    {"refresh_token":"AazW9oNjLGxv64kmJkfeEZIx9Oi~dPl1VGotJLr2gh05GIla3TlIIzFsQcSJWBvfDIeX"}
+2026-08-27 15:19:44.456    Server:         Server running at http://localhost:3001
+2026-08-27 15:19:44.596    Server:         TokenManager start failed: Token refresh failed (400): <html>
+<head>
+<title>
+400 Bad Request
+</title>
+</head>
+<body>
+<h1>Bad Request</h1>
+The server detected a syntax error in your request.<br>
+Check your request and all parameters.<br>
+
+<p>Your request ID was: apBVkGuQ46RAt2kjY8UbqAAABfQ</p>
+ 
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a31c0e672a11ee42',t:'MTc4Nzg0Mzk4NA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
+
+2026-08-27 15:19:44.596    Server:         The server is still running. Update the refresh token via POST /api/auth/token
+2026-08-27 15:20:24.129    TokenRouter:    "AazW9oNjLGxv64kmJkfeEZIx9Oi~dPl1VGotJLr2gh05GIla3TlIIzFsQcSJWBvfDIeX"
+2026-08-27 15:20:24.148    Server:         Server running at http://localhost:3001
+2026-08-27 15:20:24.362    Server:         TokenManager start failed: Token refresh failed (400): {"error":"invalid_grant"}
+2026-08-27 15:20:24.362    Server:         The server is still running. Update the refresh token via POST /api/auth/token
+2026-08-27 15:21:02.910    TokenRouter:    "AazW9oNjLGxv64kmJkfeEZIx9Oi~dPl1VGotJLr2gh05GIla3TlIIzFsQcSJWBvfDIeX"
+2026-08-27 15:21:02.930    Server:         Server running at http://localhost:3001
+2026-08-27 15:21:03.105    Server:         TokenManager start failed: Token refresh failed (400): {"error":"invalid_grant"}
+2026-08-27 15:21:03.105    Server:         The server is still running. Update the refresh token via POST /api/auth/token
+2026-08-27 15:21:30.552    Server:         Server running at http://localhost:3001
+2026-08-27 15:21:30.665    Server:         TokenManager start failed: Token refresh failed (400): {"error":"invalid_grant"}
+2026-08-27 15:21:30.665    Server:         The server is still running. Update the refresh token via POST /api/auth/token
+2026-08-27 15:22:10.970    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 15:22:10.970    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 15:22:10.971    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 15:22:11.110    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 15:22:11.110    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 15:22:11.110    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 15:22:13.027    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 15:22:13.027    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 15:22:13.027    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 15:22:28.079    Server:         Server running at http://localhost:3001
+2026-08-27 15:22:28.290    TokenRouter:    Token refreshed and persisted.
+2026-08-27 15:22:28.290    Server:         TokenManager started ✓
+2026-08-27 15:22:58.483    TokenRouter:    Token refreshed and persisted.
+2026-08-27 15:23:55.110    Server:         Server running at http://localhost:3001
+2026-08-27 15:24:25.290    Server:         Server running at http://localhost:3001
+2026-08-27 15:24:25.480    TokenRouter:    Token Updated
+2026-08-27 15:24:31.451    Server:         Server running at http://localhost:3001
+2026-08-27 15:24:31.614    TokenRouter:    Token Updated
+2026-08-27 15:26:50.639    Server:         Server running at http://localhost:3001
+2026-08-27 15:26:50.740    Server:         TokenManager start failed: Token refresh failed (400): {"error":"invalid_grant"}
+2026-08-27 15:26:50.740    Server:         The server is still running. Update the refresh token via POST /api/auth/token
+2026-08-27 15:28:04.438    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 15:28:04.438    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 15:28:04.438    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 15:28:04.641    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 15:28:04.641    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 15:28:04.641    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 15:28:06.506    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 15:28:06.506    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 15:28:06.506    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 15:28:24.207    Server:         Server running at http://localhost:3001
+2026-08-27 15:28:24.558    TokenRouter:    Token Updated
+2026-08-27 15:28:24.558    Server:         TokenManager started ✓
+2026-08-27 15:29:36.278    Server:         Server running at http://localhost:3001
+2026-08-27 15:29:36.492    TokenRouter:    Token Updated
+2026-08-27 15:29:36.492    Server:         TokenManager started ✓
+2026-08-27 15:40:37.658    Server:         Server running at http://localhost:3001
+2026-08-27 15:40:37.888    TokenRouter:    Token Updated
+2026-08-27 15:40:37.888    Server:         TokenManager started ✓
+2026-08-27 15:41:00.600    Server:         Server running at http://localhost:3001
+2026-08-27 15:41:00.786    TokenRouter:    Token Updated
+2026-08-27 15:41:00.786    Server:         TokenManager started ✓
+2026-08-27 15:41:16.369    Server:         Server running at http://localhost:3001
+2026-08-27 15:41:16.585    TokenRouter:    Token Updated
+2026-08-27 15:41:16.585    Server:         TokenManager started ✓
+2026-08-27 15:42:30.928    Server:         Server running at http://localhost:3001
+2026-08-27 15:42:31.133    TokenRouter:    Token Updated
+2026-08-27 15:42:31.133    Server:         TokenManager started ✓
+2026-08-27 15:46:11.274    Server:         Server running at http://localhost:3001
+2026-08-27 15:46:11.509    TokenRouter:    Token Updated
+2026-08-27 15:46:11.509    Server:         TokenManager started ✓
+2026-08-27 15:51:56.414    Server:         Server running at http://localhost:3001
+2026-08-27 15:51:56.578    TokenRouter:    Token Updated
+2026-08-27 15:51:56.578    Server:         TokenManager started ✓
+2026-08-27 15:53:29.918    Server:         Server running at http://localhost:3001
+2026-08-27 15:53:30.132    TokenRouter:    Token Updated
+2026-08-27 15:53:30.132    Server:         TokenManager started ✓
+2026-08-27 15:54:30.651    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 15:54:30.651    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 15:54:30.652    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 15:54:41.027    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 15:54:41.027    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 15:54:41.027    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 15:54:51.406    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 15:54:51.406    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 15:54:51.406    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 15:55:01.040    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 15:55:01.040    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 15:55:01.040    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 15:56:02.590    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 15:56:02.590    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 15:56:02.590    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 15:56:13.005    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 15:56:13.005    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 15:56:13.005    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 15:56:13.159    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 15:56:13.159    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 15:56:13.159    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 15:56:15.016    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 15:56:15.016    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 15:56:15.016    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 15:57:04.570    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 15:57:04.571    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 15:57:04.571    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 15:57:06.400    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 15:57:06.400    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 15:57:06.400    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 16:00:46.327    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 16:00:46.327    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 16:00:46.327    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 16:05:17.503    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 16:05:17.503    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 16:05:17.503    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 16:09:49.053    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 16:09:49.053    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 16:09:49.053    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 16:14:20.191    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 16:14:20.191    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 16:14:20.191    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 16:18:52.894    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 16:18:52.894    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 16:18:52.894    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 16:23:25.395    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 16:23:25.396    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 16:23:25.396    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 16:27:34.169    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 16:27:34.169    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 16:27:34.170    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 16:27:44.955    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 16:27:44.955    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 16:27:44.955    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 16:27:45.102    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 16:27:45.102    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 16:27:45.102    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 16:27:47.064    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 16:27:47.065    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 16:27:47.065    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 16:27:57.527    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 16:27:57.527    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 16:27:57.527    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 16:32:17.319    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 16:32:17.319    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 16:32:17.319    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 16:32:18.524    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 16:32:18.524    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 16:32:18.524    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 16:32:28.765    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 16:32:28.765    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 16:32:28.765    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 16:36:51.014    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 16:36:51.014    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 16:36:51.014    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 16:36:59.922    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 16:36:59.922    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 16:36:59.922    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 16:41:32.172    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 16:41:32.172    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 16:41:32.172    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 16:46:04.398    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 16:46:04.398    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 16:46:04.398    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 16:49:09.644    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 16:49:09.644    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 16:49:09.644    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 16:49:23.146    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 16:49:23.146    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 16:49:23.146    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 16:49:23.434    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 16:49:23.434    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 16:49:23.434    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 16:49:25.231    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 16:49:25.231    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 16:49:25.231    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 16:53:54.823    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 16:53:54.823    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 16:53:54.823    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 16:58:27.653    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 16:58:27.653    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 16:58:27.653    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 17:02:59.802    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 17:02:59.803    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 17:02:59.803    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 17:07:31.344    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 17:07:31.344    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 17:07:31.344    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 17:12:03.030    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 17:12:03.030    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 17:12:03.030    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 17:16:34.516    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 17:16:34.516    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 17:16:34.516    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 17:21:05.848    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 17:21:05.848    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 17:21:05.848    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 17:25:37.329    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 17:25:37.329    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 17:25:37.329    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 17:26:16.210    Server:         Server running at http://localhost:3001
+2026-08-27 17:26:28.313    TokenRouter:    Refresh token file not found, add the token via the API.
+2026-08-27 17:26:28.313    Server:         Token manager coud not be created, error: path is not defined
+2026-08-27 17:26:28.313    Server:         Server running at http://localhost:3001
+2026-08-27 17:29:11.633    TokenRouter:    Refresh token file not found, add the token via the API.
+2026-08-27 17:29:11.634    Server:         Token manager coud not be created, error: path is not defined
+2026-08-27 17:29:11.634    Server:         Server running at http://localhost:3001
+2026-08-27 17:29:22.284    TokenRouter:    Refresh token file not found, add the token via the API.
+2026-08-27 17:29:22.285    Server:         Token manager coud not be created, error: path is not defined
+2026-08-27 17:29:22.285    Server:         Server running at http://localhost:3001
+2026-08-27 17:29:24.947    TokenRouter:    Refresh token file not found, add the token via the API.
+2026-08-27 17:29:24.948    Server:         Token manager coud not be created, error: path is not defined
+2026-08-27 17:29:24.948    Server:         Server running at http://localhost:3001
+2026-08-27 17:29:25.782    TokenRouter:    Refresh token file not found, add the token via the API.
+2026-08-27 17:29:25.783    Server:         Token manager coud not be created, error: path is not defined
+2026-08-27 17:29:25.783    Server:         Server running at http://localhost:3001
+2026-08-27 17:29:26.496    TokenRouter:    Refresh token file not found, add the token via the API.
+2026-08-27 17:29:26.497    Server:         Token manager coud not be created, error: path is not defined
+2026-08-27 17:29:26.497    Server:         Server running at http://localhost:3001
+2026-08-27 17:30:08.635    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 17:30:08.635    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 17:30:08.635    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 17:30:09.220    Server:         Token manager coud not be created, error: The "callback" argument must be of type function. Received an instance of Promise
+2026-08-27 17:30:09.235    Server:         Server running at http://localhost:3001
+2026-08-27 17:32:50.567    Server:         Token manager coud not be created, error: The "callback" argument must be of type function. Received an instance of Promise
+2026-08-27 17:32:50.581    Server:         Server running at http://localhost:3001
+2026-08-27 17:32:50.787    TokenRouter:    Token refresh error: Token refresh failed (400): {"error":"invalid_grant"}
+2026-08-27 17:32:50.850    TokenRouter:    Token refresh error: Token refresh failed (400): {"error":"invalid_grant"}
+2026-08-27 17:33:09.166    Server:         Token manager coud not be created, error: The "callback" argument must be of type function. Received an instance of Promise
+2026-08-27 17:33:09.180    Server:         Server running at http://localhost:3001
+2026-08-27 17:33:09.281    TokenRouter:    Token refresh error: Token refresh failed (400): {"error":"invalid_grant"}
+2026-08-27 17:33:20.080    TokenRouter:    Token Updated for: main
+2026-08-27 17:33:20.094    Server:         Server running at http://localhost:3001
+2026-08-27 17:33:20.358    TokenRouter:    Token refresh error: Token refresh failed (400): {"error":"invalid_grant"}
+2026-08-27 17:33:55.358    Server:         Token manager coud not be created, error: The "callback" argument must be of type function. Received an instance of Promise
+2026-08-27 17:33:55.373    Server:         Server running at http://localhost:3001
+2026-08-27 17:33:55.486    TokenRouter:    Token refresh error: Token refresh failed (400): {"error":"invalid_grant"}
+2026-08-27 17:34:06.841    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 17:34:06.841    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 17:34:06.841    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 17:34:17.796    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 17:34:17.796    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 17:34:17.796    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 17:34:27.628    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 17:34:27.628    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 17:34:27.628    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 17:34:27.770    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 17:34:27.770    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 17:34:27.770    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 17:34:29.643    TokenRouter:    Token refreshed and persisted ✓
+2026-08-27 17:34:29.643    TokenRouter:    Token hot-reloaded from external source
+2026-08-27 17:34:29.643    AuthRoute:      Refresh token updated and reloaded via API
+2026-08-27 17:34:53.825    Server:         Token manager coud not be created, error: The "callback" argument must be of type function. Received an instance of Promise
+2026-08-27 17:34:53.838    Server:         Server running at http://localhost:3001
+2026-08-27 17:36:25.636    Server:         Token manager coud not be created, error: The "callback" argument must be of type function. Received an instance of Promise
+2026-08-27 17:36:25.650    Server:         Server running at http://localhost:3001
+2026-08-27 17:37:00.615    Server:         Server running at http://localhost:3001
+2026-08-27 17:37:57.636    Server:         Token manager could not be created, error: The "callback" argument must be of type function. Received an instance of Promise
+2026-08-27 17:37:57.651    Server:         Server running at http://localhost:3001
+2026-08-27 17:39:27.928    Server:         Token manager could not be created, error: The "callback" argument must be of type function. Received an instance of Promise
+2026-08-27 17:39:27.942    Server:         Server running at http://localhost:3001
+2026-08-27 17:40:05.611    TokenRouter:    Token Updated for: main
+2026-08-27 17:40:05.625    Server:         Server running at http://localhost:3001
+2026-08-27 17:40:36.050    TokenRouter:    Token Updated for: main
+2026-08-27 17:40:36.051    TokenRouter:    Refresh token file not found, add the token via the API.
+2026-08-27 17:40:36.051    Server:         Token manager could not be created, error: path is not defined
+2026-08-27 17:40:36.064    Server:         Server running at http://localhost:3001
+2026-08-27 18:01:59.937    TokenRouter:    Token Updated for: main
+2026-08-27 18:01:59.938    TokenRouter:    Refresh token file not found, add the token via the API.
+2026-08-27 18:01:59.938    Server:         Token manager could not be created, error: path is not defined
+2026-08-27 18:01:59.951    Server:         Server running at http://localhost:3001
+2026-08-27 18:02:12.858    TokenRouter:    Token Updated for: main
+2026-08-27 18:02:12.858    TokenRouter:    Refresh token file not found, add the token via the API.
+2026-08-27 18:02:12.858    Server:         Token manager could not be created, error: path is not defined
+2026-08-27 18:02:12.875    Server:         Server running at http://localhost:3001

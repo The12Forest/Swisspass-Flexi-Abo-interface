@@ -1,0 +1,30 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "SwissPass FlexiAbo Server",
+        "data": {
+          "server_url": "Server-URL",
+          "profile": "Profilname"
+        },
+        "description": "Gib die Adresse deines selbst gehosteten SwissPass FlexiAbo Servers und den Profilnamen an."
+      },
+      "subscription": {
+        "title": "Abonnement auswählen",
+        "data": {
+          "leistung_id": "Abonnement"
+        },
+        "description": "Wähle das zu überwachende FlexiAbo-Abonnement aus."
+      }
+    },
+    "error": {
+      "cannot_connect": "Verbindung zum Server fehlgeschlagen. Prüfe die URL und stelle sicher, dass der Server läuft.",
+      "profile_not_found": "Profil nicht gefunden. Überprüfe den Profilnamen.",
+      "no_subscriptions": "Keine aktiven FlexiAbo-Abonnements für dieses Profil gefunden.",
+      "unknown": "Unerwarteter Fehler. Überprüfe die Logs."
+    },
+    "abort": {
+      "already_configured": "Dieses Abonnement ist bereits konfiguriert."
+    }
+  }
+}

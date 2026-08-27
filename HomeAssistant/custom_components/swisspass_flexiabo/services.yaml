@@ -1,0 +1,37 @@
+"""Services for SwissPass FlexiAbo."""
+activate_today:
+  name: Activate Today
+  description: Activate the FlexiAbo for today.
+  fields:
+    entry_id:
+      name: Entry ID
+      description: The config entry ID (optional if only one FlexiAbo is configured).
+      example: "abc123def456"
+
+activate_date:
+  name: Activate Date
+  description: Activate the FlexiAbo for a specific date.
+  fields:
+    date:
+      name: Date
+      description: The date to activate in YYYY-MM-DD format.
+      example: "2026-08-27"
+      required: true
+    entry_id:
+      name: Entry ID
+      description: The config entry ID (optional if only one FlexiAbo is configured).
+      example: "abc123def456"
+
+deactivate_date:
+  name: Deactivate Date
+  description: Deactivate the FlexiAbo for a specific date.
+  fields:
+    date:
+      name: Date
+      description: The date to deactivate in YYYY-MM-DD format.
+      example: "2026-08-27"
+      required: true
+    entry_id:
+      name: Entry ID
+      description: The config entry ID (optional if only one FlexiAbo is configured).
+      example: "abc123def456"
