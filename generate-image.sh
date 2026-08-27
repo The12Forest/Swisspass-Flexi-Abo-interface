@@ -9,7 +9,7 @@ REPO_NAME="swisspass-flexi-abo-interface"
 # ── Check if already logged in to ghcr.io ────────────────────────────────────
 DOCKER_CONFIG="${DOCKER_CONFIG:-${HOME}/.docker}"
 ALREADY_LOGGED_IN=false
-GITHUB_USER=""
+GITHUB_USER="The12Forest"
 
 if [ -f "${DOCKER_CONFIG}/config.json" ]; then
   if grep -q '"ghcr.io"' "${DOCKER_CONFIG}/config.json" 2>/dev/null; then
@@ -41,7 +41,8 @@ fi
 
 # ── Prompt for inputs ─────────────────────────────────────────────────────────
 if [ "${ALREADY_LOGGED_IN}" = false ]; then
-  read -rp "GitHub username: " GITHUB_USER
+  if [ -z "${GITHUB_USER}" ]; then
+    read -rp "GitHub username: " GITHUB_USER
   read -rsp "GitHub Personal Access Token (write:packages scope): " CR_PAT
   echo ""
   if [ -z "${GITHUB_USER}" ] || [ -z "${CR_PAT}" ]; then

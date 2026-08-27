@@ -3,24 +3,9 @@ import voluptuous as vol
 import aiohttp
 
 from homeassistant import config_entries
-from homeassistant.core import callback
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .const import DOMAIN, CONF_SERVER_URL, CONF_PROFILE, CONF_LEISTUNG_ID, DEFAULT_PROFILE
-
-
-async def _test_connection(session: aiohttp.ClientSession, server_url: str, profile: str) -> dict | None:
-    """Try to list subscriptions. Returns first subscription dict or None on failure."""
-    url = f"{server_url.rstrip('/')}/api/profiles/{profile}/subscriptions"
-    try:
-        async with session.get(url, timeout=aiohttp.ClientTimeout(total=10)) as resp:
-            if resp.status == 200:
-                data = await resp.json()
-                subs = data.get("subscriptions", [])
-                return subs[0] if subs else {}
-    except Exception:
-        pass
-    return None
 
 
 class SwissPassFlexiAboConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
@@ -37,7 +22,7 @@ class SwissPassFlexiAboConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         errors = {}
 
         # Preserve whatever the user typed so the form doesn't reset on error
-        suggested_url = (user_input or {}).get(CONF_SERVER_URL, "http://localhost:3001")
+        suggested_url = (user_input or {}).get(CONF_SERVER_URL, "http://192.168.188.20:3001")
         suggested_profile = (user_input or {}).get(CONF_PROFILE, DEFAULT_PROFILE)
 
         if user_input is not None:
@@ -45,24 +30,49 @@ class SwissPassFlexiAboConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             self._profile = user_input[CONF_PROFILE].strip().lower()
 
             session = async_get_clientsession(self.hass)
-            url = f"{self._server_url}/api/profiles/{self._profile}/subscriptions"
+
+            # ── Step 1: Check server reachability via /api/profiles ──────────
+            profiles_url = f"{self._server_url}/api/profiles"
             try:
-                async with session.get(url, timeout=aiohttp.ClientTimeout(total=10)) as resp:
-                    if resp.status == 200:
-                        data = await resp.json()
-                        self._subscriptions = data.get("subscriptions", [])
-                        if not self._subscriptions:
-                            errors["base"] = "no_subscriptions"
-                        else:
-                            return await self.async_step_subscription()
-                    elif resp.status == 404:
-                        errors["base"] = "profile_not_found"
-                    else:
+                async with session.get(profiles_url, timeout=aiohttp.ClientTimeout(total=10)) as resp:
+                    if resp.status != 200:
                         errors["base"] = "cannot_connect"
+                    else:
+                        data = await resp.json()
+                        profiles = [
+                            (p["name"] if isinstance(p, dict) else p)
+                            for p in data.get("profiles", [])
+                        ]
+                        if self._profile not in profiles:
+                            errors["base"] = "profile_not_found"
+                        else:
+                            # Check if profile has a token ready
+                            profile_obj = next(
+                                (p for p in data.get("profiles", [])
+                                 if (p["name"] if isinstance(p, dict) else p) == self._profile),
+                                None
+                            )
+                            token_ready = isinstance(profile_obj, dict) and profile_obj.get("ready", False)
+                            if not token_ready:
+                                errors["base"] = "no_token"
+                            else:
+                                # ── Step 2: Fetch subscriptions ───────────────
+                                subs_url = f"{self._server_url}/api/profiles/{self._profile}/subscriptions"
+                                async with session.get(subs_url, timeout=aiohttp.ClientTimeout(total=10)) as sresp:
+                                    if sresp.status == 200:
+                                        subs_data = await sresp.json()
+                                        self._subscriptions = subs_data.get("subscriptions", [])
+                                        if not self._subscriptions:
+                                            errors["base"] = "no_subscriptions"
+                                        else:
+                                            return await self.async_step_subscription()
+                                    else:
+                                        errors["base"] = "no_subscriptions"
+
             except aiohttp.ClientConnectionError:
                 errors["base"] = "cannot_connect"
             except Exception:
-                errors["base"] = "unknown"
+                errors["base"] = "cannot_connect"
 
         return self.async_show_form(
             step_id="user",

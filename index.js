@@ -273,8 +273,8 @@ app.get('/api/ha-integration/download', async (req, res) => {
 // (No Frontend dir — download links are at /api/extension/download and /api/ha-integration/download)
 
 // ── Start ─────────────────────────────────────────────────────────────────────
-http.createServer(app).listen(httpPort, () => {
-    console.log(`Server running at http://localhost:${httpPort}`);
+http.createServer(app).listen(httpPort, '0.0.0.0', () => {
+    console.log(`Server running at http://0.0.0.0:${httpPort}`);
 });
 
 async function main() {

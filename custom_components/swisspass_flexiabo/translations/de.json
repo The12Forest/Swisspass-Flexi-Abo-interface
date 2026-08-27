@@ -20,6 +20,7 @@
     "error": {
       "cannot_connect": "Verbindung zum Server fehlgeschlagen. Prüfe die URL und stelle sicher, dass der Server läuft.",
       "profile_not_found": "Profil nicht gefunden. Überprüfe den Profilnamen.",
+      "no_token": "Profil hat keinen gültigen Token. Bitte melde dich über die Browser-Erweiterung an.",
       "no_subscriptions": "Keine aktiven FlexiAbo-Abonnements für dieses Profil gefunden.",
       "unknown": "Unerwarteter Fehler. Überprüfe die Logs."
     },

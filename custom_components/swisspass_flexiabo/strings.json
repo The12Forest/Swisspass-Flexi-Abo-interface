@@ -20,6 +20,7 @@
     "error": {
       "cannot_connect": "Cannot connect to server. Check URL and make sure the server is running.",
       "profile_not_found": "Profile not found on server. Check the profile name.",
+      "no_token": "Profile does not have a valid token. Please log in using the browser extension first.",
       "no_subscriptions": "No active FlexiAbo subscriptions found for this profile.",
       "unknown": "Unexpected error. Check logs for details."
     },
