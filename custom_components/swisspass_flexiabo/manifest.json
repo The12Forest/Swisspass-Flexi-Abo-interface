@@ -1,0 +1,12 @@
+{
+  "domain": "swisspass_flexiabo",
+  "name": "SwissPass FlexiAbo",
+  "version": "1.0.0",
+  "documentation": "https://github.com/yourusername/swisspass-flexiabo",
+  "issue_tracker": "https://github.com/yourusername/swisspass-flexiabo/issues",
+  "requirements": [],
+  "dependencies": [],
+  "codeowners": [],
+  "iot_class": "local_polling",
+  "config_flow": true
+}

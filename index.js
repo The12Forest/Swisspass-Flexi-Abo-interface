@@ -236,7 +236,23 @@ app.get('/api/extension/download', async (req, res) => {
 app.get('/api/ha-integration/download', async (req, res) => {
     const zipPath = path.join(__dirname, 'Frontend', 'swisspass-flexiabo-ha.zip');
     try {
-        await buildZip(path.join(__dirname, 'HomeAssistant'), zipPath);
+        // HACS requires custom_components/ and hacs.json at repo root
+        await execFileAsync('python3', ['-c', `
+import zipfile, os, sys
+root = sys.argv[1]
+out = sys.argv[2]
+with zipfile.ZipFile(out, 'w', zipfile.ZIP_DEFLATED) as z:
+    # Add hacs.json
+    hacs = os.path.join(root, 'hacs.json')
+    if os.path.exists(hacs):
+        z.write(hacs, 'hacs.json')
+    # Add custom_components/
+    cc = os.path.join(root, 'custom_components')
+    for r, _, files in os.walk(cc):
+        for f in files:
+            fp = os.path.join(r, f)
+            z.write(fp, os.path.relpath(fp, root))
+`, __dirname, zipPath]);
         res.download(zipPath, 'swisspass-flexiabo-ha.zip');
     } catch (err) {
         res.status(500).json({ error: 'Failed to build HA integration ZIP: ' + err.message });
