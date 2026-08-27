@@ -37,16 +37,28 @@
                     if (!patterns.some(p => lk.includes(p))) continue;
                     try {
                         const raw = store.getItem(key);
+                        if (!raw) continue;
+                        
+                        // If the key specifically is refresh_token, just take it (if it looks valid)
+                        if (lk === 'refresh_token' && typeof raw === 'string' && raw.length > 20) {
+                            // it might be JSON or not, if it starts with { it might be JSON, but let's just parse
+                            try {
+                                const val = JSON.parse(raw);
+                                if (val?.refresh_token) return val.refresh_token;
+                                if (val?.refreshToken) return val.refreshToken;
+                                if (typeof val === 'string') return val;
+                            } catch {
+                                return raw; // It's a raw string
+                            }
+                        }
+
+                        // Otherwise try JSON parsing
                         const val = JSON.parse(raw);
-                        // OIDC ClientUser format: { refresh_token: '...' }
                         if (val?.refresh_token) return val.refresh_token;
                         if (val?.refreshToken) return val.refreshToken;
                         if (typeof val === 'string' && val.length > 20) return val;
                     } catch { 
-                        if (lk === 'refresh_token') {
-                            const raw = store.getItem(key);
-                            if (typeof raw === 'string' && raw.length > 20) return raw;
-                        }
+                        // Ignored
                     }
                 }
             } catch {}
