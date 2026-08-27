@@ -1,0 +1,7 @@
+node_modules
+*.log
+LOG/
+Web Export/
+.vscode
+cookies.json
+data/

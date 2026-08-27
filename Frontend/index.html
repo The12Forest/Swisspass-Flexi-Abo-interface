@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwissPass FlexiAbo</title>
+    <meta name="description" content="Alternative SwissPass FlexiAbo management interface">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Background decoration -->
+    <div class="bg-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <!-- App Shell -->
+    <div id="app">
+        <!-- Sidebar Nav -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-logo">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                    <rect width="32" height="32" rx="8" fill="url(#logoGrad)"/>
+                    <path d="M8 16h4m0 0l4-8 4 8m0 0h4" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <defs><linearGradient id="logoGrad" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#e63946"/><stop offset="1" stop-color="#a8232e"/></linearGradient></defs>
+                </svg>
+                <span>FlexiAbo</span>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="#dashboard" class="nav-item active" data-page="dashboard" id="nav-dashboard">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+                    Dashboard
+                </a>
+                <a href="#calendar" class="nav-item" data-page="calendar" id="nav-calendar">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    Kalender
+                </a>
+                <a href="#tokens" class="nav-item" data-page="tokens" id="nav-tokens">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 7a2 2 0 0 1 2 2m4 0a6 6 0 0 1-7.743 5.743L11 17H9v2H7v2H4a1 1 0 0 1-1-1v-2.586a1 1 0 0 1 .293-.707l5.964-5.964A6 6 0 1 1 21 9z"/></svg>
+                    API Tokens
+                </a>
+                <a href="#settings" class="nav-item" data-page="settings" id="nav-settings">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                    Einstellungen
+                </a>
+            </nav>
+
+            <div class="sidebar-status">
+                <div class="status-dot" id="status-dot"></div>
+                <span id="status-label">Verbinden...</span>
+            </div>
+        </aside>
+
+        <!-- Main content -->
+        <main class="main">
+            <!-- Dashboard Page -->
+            <div class="page active" id="page-dashboard">
+                <div class="page-header">
+                    <div>
+                        <h1>Dashboard</h1>
+                        <p class="subtitle">Übersicht deines FlexiAbos</p>
+                    </div>
+                    <button class="btn btn-primary" id="btn-activate-today">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        Heute aktivieren
+                    </button>
+                </div>
+
+                <!-- Connection warning -->
+                <div class="alert alert-warning hidden" id="alert-no-token">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    <div>
+                        <strong>Nicht verbunden</strong>
+                        <p>Installiere die Browser-Extension oder füge manuell ein Refresh-Token ein.</p>
+                    </div>
+                </div>
+
+                <!-- Stats cards -->
+                <div class="stats-grid" id="stats-grid">
+                    <div class="stat-card loading">
+                        <div class="stat-icon red"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0"/><path d="M12 8v4l3 3"/></svg></div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="stat-available">--</div>
+                            <div class="stat-label">Verfügbare Tage</div>
+                        </div>
+                    </div>
+                    <div class="stat-card loading">
+                        <div class="stat-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="stat-used">--</div>
+                            <div class="stat-label">Verwendet</div>
+                        </div>
+                    </div>
+                    <div class="stat-card loading">
+                        <div class="stat-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="stat-total">--</div>
+                            <div class="stat-label">Total Tage</div>
+                        </div>
+                    </div>
+                    <div class="stat-card loading">
+                        <div class="stat-icon yellow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="stat-price">--</div>
+                            <div class="stat-label">Preis</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Subscription details -->
+                <div class="card" id="card-subscription">
+                    <div class="card-header">
+                        <h2>Abonnement</h2>
+                        <span class="badge badge-active hidden" id="badge-status">Gültig</span>
+                    </div>
+                    <div class="sub-info hidden" id="sub-info">
+                        <div class="sub-row">
+                            <span class="sub-key">Bezeichnung</span>
+                            <span class="sub-val" id="sub-name">--</span>
+                        </div>
+                        <div class="sub-row">
+                            <span class="sub-key">Klasse</span>
+                            <span class="sub-val" id="sub-class">--</span>
+                        </div>
+                        <div class="sub-row">
+                            <span class="sub-key">Gültigkeit</span>
+                            <span class="sub-val" id="sub-validity">--</span>
+                        </div>
+                        <div class="sub-row">
+                            <span class="sub-key">Zonen</span>
+                            <span class="sub-val" id="sub-zones">--</span>
+                        </div>
+                        <div class="sub-row">
+                            <span class="sub-key">Zahlung</span>
+                            <span class="sub-val" id="sub-payment">--</span>
+                        </div>
+                    </div>
+                    <div class="progress-section" id="progress-section">
+                        <div class="progress-label">
+                            <span>Tagesnutzung</span>
+                            <span id="progress-text">-- / -- Tage</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="empty-state hidden" id="empty-subscriptions">
+                        <p>Keine aktiven FlexiAbos gefunden.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Calendar Page -->
+            <div class="page hidden" id="page-calendar">
+                <div class="page-header">
+                    <div>
+                        <h1>Kalender</h1>
+                        <p class="subtitle">Ausflugstage verwalten</p>
+                    </div>
+                </div>
+                <div class="card calendar-card">
+                    <div class="calendar-nav">
+                        <button class="btn btn-ghost" id="cal-prev">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+                        </button>
+                        <h2 id="cal-title">August 2026</h2>
+                        <button class="btn btn-ghost" id="cal-next">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                        </button>
+                    </div>
+                    <div class="calendar-grid">
+                        <div class="cal-weekday">Mo</div>
+                        <div class="cal-weekday">Di</div>
+                        <div class="cal-weekday">Mi</div>
+                        <div class="cal-weekday">Do</div>
+                        <div class="cal-weekday">Fr</div>
+                        <div class="cal-weekday">Sa</div>
+                        <div class="cal-weekday">So</div>
+                        <!-- Days injected by JS -->
+                    </div>
+                    <div class="calendar-legend">
+                        <div class="legend-item"><div class="legend-dot activated"></div><span>Aktiviert</span></div>
+                        <div class="legend-item"><div class="legend-dot today"></div><span>Heute</span></div>
+                        <div class="legend-item"><div class="legend-dot future"></div><span>Aktivierbar</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- API Tokens Page -->
+            <div class="page hidden" id="page-tokens">
+                <div class="page-header">
+                    <div>
+                        <h1>API Tokens</h1>
+                        <p class="subtitle">Für Home Assistant und andere Integrationen</p>
+                    </div>
+                    <button class="btn btn-primary" id="btn-create-token">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        Token erstellen
+                    </button>
+                </div>
+
+                <div class="card">
+                    <div class="ha-info">
+                        <h3>Home Assistant Integration</h3>
+                        <p>Verwende diese Endpoints in deiner <code>configuration.yaml</code>:</p>
+                        <pre id="ha-config-preview">loading...</pre>
+                    </div>
+                </div>
+
+                <div class="tokens-list" id="tokens-list">
+                    <div class="empty-state">Keine Tokens erstellt.</div>
+                </div>
+            </div>
+
+            <!-- Settings Page -->
+            <div class="page hidden" id="page-settings">
+                <div class="page-header">
+                    <div>
+                        <h1>Einstellungen</h1>
+                        <p class="subtitle">Verbindung und Konfiguration</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>SwissPass Verbindung</h2>
+                    <div class="form-group">
+                        <label>Refresh Token</label>
+                        <p class="field-hint">Du kannst den Token manuell einfügen wenn du keine Browser-Extension verwendest. Hole ihn aus den DevTools → Netzwerk → swisspass.ch OAuth Token-Anfrage.</p>
+                        <div class="input-row">
+                            <input type="password" id="input-refresh-token" class="input" placeholder="Refresh Token einfügen...">
+                            <button class="btn btn-primary" id="btn-save-token">Speichern</button>
+                        </div>
+                    </div>
+                    <div class="connection-status-box" id="connection-status-box">
+                        <div class="cs-row"><span>Token Status</span><span id="cs-token">--</span></div>
+                        <div class="cs-row"><span>CF Cookies</span><span id="cs-cookies">--</span></div>
+                        <div class="cs-row"><span>Letztes Cookie-Update</span><span id="cs-cookie-age">--</span></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>Browser Extension</h2>
+                    <p>Die Extension synchronisiert automatisch Cloudflare-Cookies und Refresh-Tokens mit diesem Server.</p>
+                    <div class="extension-downloads">
+                        <a href="/swisspass-flexiabo-extension.zip" class="btn btn-secondary" download>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                            Extension herunterladen
+                        </a>
+                    </div>
+                    <div class="extension-instructions">
+                        <h4>Installation (Chrome/Edge):</h4>
+                        <ol>
+                            <li>ZIP herunterladen und entpacken</li>
+                            <li><code>chrome://extensions</code> öffnen</li>
+                            <li>Entwicklermodus aktivieren</li>
+                            <li>«Entpackte Extension laden» → Extension-Ordner auswählen</li>
+                        </ol>
+                        <h4>Installation (Firefox):</h4>
+                        <ol>
+                            <li><code>about:debugging#/runtime/this-firefox</code> öffnen</li>
+                            <li>«Temporäres Add-on laden» → <code>manifest.json</code></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <div class="modal-overlay hidden" id="modal-overlay">
+        <div class="modal" id="modal">
+            <div class="modal-header">
+                <h3 id="modal-title">Modal</h3>
+                <button class="btn-icon" id="modal-close">×</button>
+            </div>
+            <div class="modal-body" id="modal-body"></div>
+            <div class="modal-footer" id="modal-footer"></div>
+        </div>
+    </div>
+
+    <!-- Toast container -->
+    <div id="toast-container"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>

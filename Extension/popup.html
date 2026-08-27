@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwissPass FlexiAbo Bridge</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <header>
+        <img src="icons/icon48.png" alt="icon" class="logo">
+        <div>
+            <h1>FlexiAbo Bridge</h1>
+            <p id="global-status">Prüfe Status...</p>
+        </div>
+    </header>
+
+    <section class="status-section">
+        <div class="status-row">
+            <span>cf_clearance</span>
+            <span id="st-cookie" class="badge">--</span>
+        </div>
+        <div class="status-row">
+            <span>Server erreichbar</span>
+            <span id="st-server" class="badge">--</span>
+        </div>
+        <div class="status-row">
+            <span>Token synchronisiert</span>
+            <span id="st-token" class="badge">--</span>
+        </div>
+    </section>
+
+    <section class="config-section">
+        <label for="server-url">Server URL</label>
+        <div class="input-row">
+            <input type="text" id="server-url" placeholder="http://localhost:3000" spellcheck="false">
+            <button id="btn-save">Speichern</button>
+        </div>
+    </section>
+
+    <div class="actions">
+        <button id="btn-sync" class="btn-primary">Jetzt synchronisieren</button>
+        <a id="btn-open" href="#" target="_blank" class="btn-secondary">App öffnen</a>
+    </div>
+
+    <footer>
+        Besuche <a href="https://www.swisspass.ch" target="_blank">swisspass.ch</a> um Cookies zu aktualisieren
+    </footer>
+
+    <script src="popup.js"></script>
+</body>
+</html>
