@@ -386,3 +386,5 @@ Check your request and all parameters.<br>
 2026-08-27 18:43:53.321    Server:         Server running at http://localhost:3001
 2026-08-27 18:48:53.338    TokenRouter:    Token refresh error: No refresh token available. Please log in via the browser extension or paste a refresh token.
 2026-08-27 18:53:53.366    TokenRouter:    Token refresh error: No refresh token available. Please log in via the browser extension or paste a refresh token.
+2026-08-27 18:58:53.395    TokenRouter:    Token refresh error: No refresh token available. Please log in via the browser extension or paste a refresh token.
+2026-08-27 19:05:02.201    TokenRouter:    Token refresh error: No refresh token available. Please log in via the browser extension or paste a refresh token.

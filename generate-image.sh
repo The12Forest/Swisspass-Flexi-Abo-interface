@@ -4,7 +4,7 @@ git pull
 set -euo pipefail
 
 REGISTRY="ghcr.io"
-REPO_NAME="outside-game"
+REPO_NAME="swisspass-flexi-abo-interface"
 
 # ── Check if already logged in to ghcr.io ────────────────────────────────────
 DOCKER_CONFIG="${DOCKER_CONFIG:-${HOME}/.docker}"
