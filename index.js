@@ -10,8 +10,7 @@ import log from './Backend/functions/log.js';
 import { TokenManager } from './Backend/routes/token/index.js';
 import { getSubscriptions, getActivatedDays, activateDay, deactivateDay } from './Backend/functions/getSubscriptionID.js';
 
-const require = createRequire(import.meta.url);
-const archiver = require('archiver');
+import archiver from 'archiver';
 
 const execFileAsync = promisify(execFile);
 
@@ -22,14 +21,13 @@ const console = { log: log('Server') };
 const app = express();
 const httpPort = process.env.HTTP_PORT || 3000;
 
+// ── Middleware ────────────────────────────────────────────────────────────────
 app.use(express.json());
-
-// ── CORS ─────────────────────────────────────────────────────────────────────
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Authorization, Content-Type');
-    if (req.method === 'OPTIONS') return res.sendStatus(204);
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+    if (req.method === 'OPTIONS') return res.sendStatus(200);
     next();
 });
 
@@ -73,6 +71,10 @@ app.post('/api/profiles', (req, res) => {
 
     if (!raw) {
         return res.status(400).json({ error: 'name is required' });
+    }
+    const token = tm.getRefreshToken();
+    if (!token) {
+        return res.status(401).json({ error: 'No token available for this profile' });
     }
     if (!NAME_RE.test(raw)) {
         return res.status(400).json({
@@ -273,6 +275,27 @@ app.get('/api/ha-integration/download', async (req, res) => {
 // (No Frontend dir — download links are at /api/extension/download and /api/ha-integration/download)
 
 // ── Start ─────────────────────────────────────────────────────────────────────
+app.get('/', (req, res) => {
+    res.send(`
+        <!DOCTYPE html>
+        <html lang="de">
+        <head>
+            <meta charset="UTF-8"><title>SwissPass FlexiAbo Server</title>
+            <style>body{font-family:system-ui,sans-serif;max-width:600px;margin:40px auto;line-height:1.6;color:#333;}</style>
+        </head>
+        <body>
+            <h1>SwissPass FlexiAbo Server läuft! ✓</h1>
+            <p>Die API ist unter <code>/api</code> erreichbar.</p>
+            <h3>Downloads:</h3>
+            <ul>
+                <li><a href="/api/extension/download">Browser-Erweiterung herunterladen (.zip)</a></li>
+                <li><a href="/api/ha-integration/download">Home Assistant Integration herunterladen (.zip)</a></li>
+            </ul>
+        </body>
+        </html>
+    `);
+});
+
 http.createServer(app).listen(httpPort, '0.0.0.0', () => {
     console.log(`Server running at http://0.0.0.0:${httpPort}`);
 });

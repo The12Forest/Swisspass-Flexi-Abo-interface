@@ -403,3 +403,29 @@ Check your request and all parameters.<br>
 2026-08-27 19:17:02.384    TokenRouter:    Token Updated for: seccond
 2026-08-27 19:17:02.384    Server:         Loaded profiles: main, seccond
 2026-08-27 19:17:02.398    Server:         Server running at http://0.0.0.0:3001
+2026-08-27 19:20:17.873    TokenRouter:    Token Updated for: main
+2026-08-27 19:20:17.873    TokenRouter:    Token refresh error: No refresh token available. Please log in via the browser extension or paste a refresh token.
+2026-08-27 19:20:17.873    TokenRouter:    Token Updated for: seccond
+2026-08-27 19:20:17.873    Server:         Loaded profiles: main, seccond
+2026-08-27 19:20:17.886    Server:         Server running at http://0.0.0.0:3001
+2026-08-27 19:25:17.903    TokenRouter:    Token refresh error: No refresh token available. Please log in via the browser extension or paste a refresh token.
+2026-08-27 19:27:37.237    TokenRouter:    Token Updated for: main
+2026-08-27 19:27:37.238    TokenRouter:    Token refresh error: No refresh token available. Please log in via the browser extension or paste a refresh token.
+2026-08-27 19:27:37.238    TokenRouter:    Token Updated for: seccond
+2026-08-27 19:27:37.238    Server:         Loaded profiles: main, seccond
+2026-08-27 19:27:37.250    Server:         Server running at http://0.0.0.0:3001
+2026-08-27 19:27:42.532    TokenRouter:    Token Updated for: main
+2026-08-27 19:27:42.532    TokenRouter:    Token refresh error: No refresh token available. Please log in via the browser extension or paste a refresh token.
+2026-08-27 19:27:42.532    TokenRouter:    Token Updated for: seccond
+2026-08-27 19:27:42.532    Server:         Loaded profiles: main, seccond
+2026-08-27 19:27:42.546    Server:         Server running at http://0.0.0.0:3001
+2026-08-27 19:32:24.171    TokenRouter:    Token Updated for: main
+2026-08-27 19:32:24.172    TokenRouter:    Token refresh error: No refresh token available. Please log in via the browser extension or paste a refresh token.
+2026-08-27 19:32:24.172    TokenRouter:    Token Updated for: seccond
+2026-08-27 19:32:24.172    Server:         Loaded profiles: main, seccond
+2026-08-27 19:32:24.185    Server:         Server running at http://0.0.0.0:3001
+2026-08-27 19:35:36.719    TokenRouter:    Token Updated for: main
+2026-08-27 19:35:36.719    TokenRouter:    Token refresh error: No refresh token available. Please log in via the browser extension or paste a refresh token.
+2026-08-27 19:35:36.720    TokenRouter:    Token Updated for: seccond
+2026-08-27 19:35:36.720    Server:         Loaded profiles: main, seccond
+2026-08-27 19:35:36.733    Server:         Server running at http://0.0.0.0:3001

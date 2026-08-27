@@ -22,8 +22,8 @@
   "host_permissions": [
     "https://www.swisspass.ch/*",
     "https://login.swisspass.ch/*",
-    "http://localhost/*",
-    "http://127.0.0.1/*"
+    "http://*/*",
+    "https://*/*"
   ],
   "background": {
     "scripts": ["background.js"],
