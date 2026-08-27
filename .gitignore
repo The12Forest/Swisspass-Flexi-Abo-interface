@@ -1,3 +1,4 @@
 node_modules
+LOG/*
 package-lock.json
-./LOG/*
+data
