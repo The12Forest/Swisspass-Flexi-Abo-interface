@@ -43,6 +43,7 @@ fi
 if [ "${ALREADY_LOGGED_IN}" = false ]; then
   if [ -z "${GITHUB_USER}" ]; then
     read -rp "GitHub username: " GITHUB_USER
+  fi
   read -rsp "GitHub Personal Access Token (write:packages scope): " CR_PAT
   echo ""
   if [ -z "${GITHUB_USER}" ] || [ -z "${CR_PAT}" ]; then
