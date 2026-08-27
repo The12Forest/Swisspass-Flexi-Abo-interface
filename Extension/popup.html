@@ -6,7 +6,8 @@
     <title>SwissPass FlexiAbo Bridge</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: system-ui, sans-serif; width: 340px; background: #0f172a; color: #e2e8f0; }
+        body { font-family: system-ui, sans-serif; width: 340px; background: #0f172a; color: #e2e8f0; transition: width 0.2s ease; }
+        body.wide { width: 480px; }
         header { display: flex; align-items: center; gap: 10px; padding: 14px 16px 10px; border-bottom: 1px solid #1e293b; }
         header img { width: 32px; height: 32px; }
         header h1 { font-size: 15px; font-weight: 600; }
@@ -44,7 +45,8 @@
         #new-profile-row .input-row { gap: 6px; }
         .token-status { font-size: 11px; color: #64748b; margin-top: 6px; text-align: center; }
         .token-status.found { color: #4ade80; }
-    </style>
+        .cert-warning { margin-top: 10px; padding: 10px 12px; background: #1e293b; border: 1px solid #f59e0b; border-radius: 8px; font-size: 12px; color: #fbbf24; display: none; line-height: 1.5; }
+        .cert-warning a { color: #fbbf24; font-weight: bold; text-decoration: underline; cursor: pointer; }
 </head>
 <body>
     <header>
@@ -59,8 +61,13 @@
     <section>
         <label for="server-url">Server URL</label>
         <div class="input-row">
-            <input type="text" id="server-url" placeholder="http://192.168.1.x:3001" spellcheck="false">
+            <input type="text" id="server-url" placeholder="https://192.168.1.x:3443" spellcheck="false">
             <button id="btn-save">Speichern</button>
+        </div>
+        <div id="cert-warning" class="cert-warning">
+            🔒 Zertifikat nicht akzeptiert &mdash; 
+            <a id="cert-link" href="#">Klicke hier um das Zertifikat zu akzeptieren</a>, 
+            dann lade die Extension neu.
         </div>
     </section>
 
@@ -102,6 +109,7 @@
 
     <footer>
         Besuche <a href="https://www.swisspass.ch" target="_blank">swisspass.ch</a> und melde dich an
+        &bull; <a href="info.html" target="_blank">Hilfe / Info</a>
     </footer>
 
     <script src="popup.js"></script>

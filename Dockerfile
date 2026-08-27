@@ -1,7 +1,7 @@
 FROM node:24-alpine
 
-# Only curl needed — no python3
-RUN apk add --no-cache curl
+# openssl for auto-generating the self-signed TLS certificate
+RUN apk add --no-cache curl openssl
 
 WORKDIR /app
 
@@ -10,12 +10,15 @@ RUN npm ci --omit=dev
 
 COPY . .
 
-# Token + profile saves are persisted in /app/Backend/saves
-# Mount a volume to survive restarts:
-#   docker run -v ./data:/app/Backend/saves ...
-RUN mkdir -p /app/Backend/saves/tokens
+# Saves dir: tokens, profiles list, and TLS cert are persisted here
+RUN mkdir -p /app/Backend/saves/tokens /app/Backend/saves/tls
 
-EXPOSE 3000
-ENV HTTP_PORT=3000
+# HTTP (for Home Assistant / LAN clients)
+EXPOSE 80
+# HTTPS (for Browser Extension – requires accepting the self-signed cert once)
+EXPOSE 443
+
+ENV HTTP_PORT=80
+ENV HTTPS_PORT=443
 
 CMD ["node", "index.js"]

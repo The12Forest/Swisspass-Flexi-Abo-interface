@@ -1,11 +1,10 @@
 /**
  * Background Service Worker (MV3)
  * - Listens for captured tokens from content script
- * - Periodically sends cf_clearance cookies to the local server
+ * - Proxies ALL fetch requests from the popup (to bypass popup's stricter network policy)
  */
 
-const DEFAULT_SERVER = 'http://localhost:3000';
-const COOKIE_INTERVAL_MS = 5 * 60 * 1000; // 5 min
+const DEFAULT_SERVER = 'http://localhost:3001';
 
 async function getSettings() {
     return new Promise(resolve => {
@@ -13,77 +12,39 @@ async function getSettings() {
     });
 }
 
-async function sendToServer(endpoint, body) {
-    const { serverUrl } = await getSettings();
-    const url = serverUrl.replace(/\/$/, '') + endpoint;
+/**
+ * Generic fetch proxy - all requests from the popup go through here.
+ * The background service worker has broader network access than the popup.
+ */
+async function doFetch(url, options = {}) {
     try {
         const res = await fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(body),
+            ...options,
+            headers: { 'Content-Type': 'application/json', ...(options.headers || {}) },
         });
-        return res.ok;
-    } catch {
-        return false;
+        const text = await res.text();
+        let json = null;
+        try { json = JSON.parse(text); } catch {}
+        return { ok: res.ok, status: res.status, body: json ?? text };
+    } catch (err) {
+        return { ok: false, status: 0, error: err.message || err.toString() };
     }
-}
-
-/** Read cf_clearance and related cookies from swisspass.ch */
-async function getSwissPassCookies() {
-    return new Promise(resolve => {
-        chrome.cookies.getAll({ domain: 'swisspass.ch' }, cookies => {
-            const result = {};
-            const wanted = ['cf_clearance', '__cf_bm', '__cfruid', 'RememberMe', 'AL_LoginFromNewDevice'];
-            for (const c of cookies) {
-                if (wanted.includes(c.name)) {
-                    result[c.name] = c.value;
-                }
-            }
-            resolve(result);
-        });
-    });
-}
-
-/** Push cookies to the local server */
-async function syncCookies() {
-    const cookies = await getSwissPassCookies();
-    if (!cookies.cf_clearance) return false;
-    const ok = await sendToServer('/api/cookies', cookies);
-    if (ok) console.log('[SwissPass Bridge] Cookies synced ✓');
-    return ok;
 }
 
 // ── Message handling ──────────────────────────────────────────────────────────
 chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
-    if (msg.type === 'TOKEN_CAPTURED' && msg.refreshToken) {
-        sendToServer('/api/auth/token', { refreshToken: msg.refreshToken })
-            .then(ok => {
-                if (ok) console.log('[SwissPass Bridge] Refresh token sent ✓');
-                sendResponse({ ok });
-            });
+    // Generic proxy for any fetch from popup.js
+    if (msg.type === 'FETCH_SERVER') {
+        const { url, method, body } = msg;
+        doFetch(url, {
+            method: method || 'GET',
+            body: body ? JSON.stringify(body) : undefined,
+        }).then(sendResponse);
         return true; // keep channel open for async response
     }
 
-    if (msg.type === 'SYNC_NOW') {
-        Promise.all([syncCookies()]).then(([cookieOk]) => {
-            sendResponse({ cookieOk });
-        });
-        return true;
-    }
-
     if (msg.type === 'GET_STATUS') {
-        getSwissPassCookies().then(cookies => {
-            sendResponse({ hasClearance: !!cookies.cf_clearance, cookies: Object.keys(cookies) });
-        });
+        sendResponse({ ok: true });
         return true;
     }
 });
-
-// ── Periodic cookie sync ──────────────────────────────────────────────────────
-chrome.alarms.create('cookie-sync', { periodInMinutes: 5 });
-chrome.alarms.onAlarm.addListener(alarm => {
-    if (alarm.name === 'cookie-sync') syncCookies();
-});
-
-// Sync on startup
-syncCookies();

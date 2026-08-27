@@ -1,8 +1,9 @@
 import express from 'express';
 import path from 'path';
 import http from 'http';
+import https from 'https';
 import fs from 'fs';
-import { execFile } from 'child_process';
+import { execFile, execFileSync } from 'child_process';
 import { promisify } from 'util';
 import { fileURLToPath } from 'url';
 import { createRequire } from 'module';
@@ -21,8 +22,42 @@ const console = { log: log('Server') };
 
 const app = express();
 const httpPort = process.env.HTTP_PORT || 3000;
+const httpsPort = process.env.HTTPS_PORT || 3443;
+
+// ── TLS: auto-generate self-signed cert if missing ──────────────────────────────────
+const certDir  = path.join(__dirname, 'Backend', 'saves', 'tls');
+const certFile = path.join(certDir, 'cert.pem');
+const keyFile  = path.join(certDir, 'key.pem');
+
+function ensureCert() {
+    if (fs.existsSync(certFile) && fs.existsSync(keyFile)) return;
+    fs.mkdirSync(certDir, { recursive: true });
+    console.log('Generating self-signed TLS certificate...');
+    try {
+        execFileSync('openssl', [
+            'req', '-x509', '-newkey', 'rsa:2048',
+            '-keyout', keyFile,
+            '-out',    certFile,
+            '-days',   '3650',
+            '-nodes',
+            '-subj',   '/CN=SwissPassFlexiAbo',
+            '-addext', 'subjectAltName=IP:127.0.0.1,IP:0.0.0.0',
+        ]);
+        console.log(`TLS cert saved to ${certDir}`);
+    } catch (err) {
+        console.log('openssl not found, trying nix-shell...');
+        execFileSync('nix-shell', [
+            '-p', 'openssl', '--run',
+            `openssl req -x509 -newkey rsa:2048 -keyout ${keyFile} -out ${certFile} -days 3650 -nodes -subj '/CN=SwissPassFlexiAbo' -addext 'subjectAltName=IP:127.0.0.1,IP:0.0.0.0'`,
+        ]);
+        console.log(`TLS cert saved to ${certDir}`);
+    }
+}
+
+ensureCert();
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // ── CORS ─────────────────────────────────────────────────────────────────────
 app.use((req, res, next) => {
@@ -135,6 +170,32 @@ app.post('/api/profiles/:profile/auth/token', async (req, res) => {
         res.json({ ok: true });
     } catch (err) {
         res.status(500).json({ error: err.message });
+    }
+});
+
+/** POST /api/profiles/:profile/auth/token_form — inject via HTML form */
+app.post('/api/profiles/:profile/auth/token_form', async (req, res) => {
+    const { refreshToken } = req.body;
+    if (!refreshToken) return res.status(400).send('<h1>Fehler: Kein Token übergeben!</h1>');
+    try {
+        const tm = resolveProfile(req);
+        await tm.reloadToken(refreshToken);
+        res.send('<h1>Token erfolgreich gespeichert! ✓</h1><p>Du kannst diesen Tab jetzt schliessen.</p>');
+    } catch (err) {
+        res.status(500).send(`<h1>Fehler:</h1><p>${err.message}</p>`);
+    }
+});
+
+/** GET /api/profiles/:profile/auth/token_fallback — inject via GET query param */
+app.get('/api/profiles/:profile/auth/token_fallback', async (req, res) => {
+    const { token } = req.query;
+    if (!token) return res.status(400).send('<h1>Fehler: Kein Token in der URL!</h1>');
+    try {
+        const tm = resolveProfile(req);
+        await tm.reloadToken(token);
+        res.send('<h1>Token erfolgreich gespeichert! ✓</h1><p>Du kannst diesen Tab jetzt schliessen.</p>');
+    } catch (err) {
+        res.status(500).send(`<h1>Fehler:</h1><p>${err.message}</p>`);
     }
 });
 
@@ -272,10 +333,23 @@ app.get('/api/ha-integration/download', async (req, res) => {
 // ── Static: serve Extension ZIP for direct browser access ────────────────────
 // (No Frontend dir — download links are at /api/extension/download and /api/ha-integration/download)
 
-// ── Start ─────────────────────────────────────────────────────────────────────
+// ── Start ───────────────────────────────────────────────────────────────────────────
 http.createServer(app).listen(httpPort, '0.0.0.0', () => {
-    console.log(`Server running at http://0.0.0.0:${httpPort}`);
+    console.log(`HTTP  server running at http://0.0.0.0:${httpPort}`);
 });
+
+try {
+    const tlsOptions = {
+        key:  fs.readFileSync(keyFile),
+        cert: fs.readFileSync(certFile),
+    };
+    https.createServer(tlsOptions, app).listen(httpsPort, '0.0.0.0', () => {
+        console.log(`HTTPS server running at https://0.0.0.0:${httpsPort}`);
+        console.log(`→ Accept the self-signed cert once at https://<your-ip>:${httpsPort}`);
+    });
+} catch (err) {
+    console.log('HTTPS disabled: ' + err.message);
+}
 
 async function main() {
     // Ensure saves directory exists

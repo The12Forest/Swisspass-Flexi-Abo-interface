@@ -2,12 +2,12 @@ const DEFAULT_SERVER = 'http://localhost:3001';
 const STORAGE_KEY_URL = 'serverUrl';
 const STORAGE_KEY_PROFILE = 'selectedProfile';
 
-// ── Storage helpers ───────────────────────────────────────────────────────────
+// ── Storage helpers (sync = persists in Firefox + Chrome across reloads) ─────────────
 function storageGet(keys) {
-    return new Promise(resolve => chrome.storage.local.get(keys, resolve));
+    return new Promise(resolve => chrome.storage.sync.get(keys, resolve));
 }
 function storageSet(obj) {
-    return new Promise(resolve => chrome.storage.local.set(obj, resolve));
+    return new Promise(resolve => chrome.storage.sync.set(obj, resolve));
 }
 
 // ── UI helpers ────────────────────────────────────────────────────────────────
@@ -27,48 +27,56 @@ async function getSelectedProfile() {
     return s[STORAGE_KEY_PROFILE];
 }
 
+// ── Background proxy fetch ────────────────────────────────────────────────────
+// All server requests go through the background service worker, which has
+// broader network permissions than the popup.
+function bgFetch(url, method = 'GET', body = null) {
+    return new Promise((resolve) => {
+        chrome.runtime.sendMessage(
+            { type: 'FETCH_SERVER', url, method, body },
+            (response) => {
+                if (chrome.runtime.lastError) {
+                    resolve({ ok: false, status: 0, error: chrome.runtime.lastError.message });
+                } else {
+                    resolve(response || { ok: false, status: 0, error: 'No response' });
+                }
+            }
+        );
+    });
+}
+
 // ── Server API calls ──────────────────────────────────────────────────────────
 async function fetchProfiles(serverUrl) {
-    try {
-        const res = await fetch(serverUrl.replace(/\/$/, '') + '/api/profiles',
-            { signal: AbortSignal.timeout(4000) });
-        if (!res.ok) return null;
-        return (await res.json()).profiles ?? [];
-    } catch { return null; }
+    const result = await bgFetch(serverUrl.replace(/\/$/, '') + '/api/profiles');
+    if (!result.ok) return { error: result.error || `HTTP ${result.status}` };
+    return result.body?.profiles ?? [];
 }
 
 async function checkServerStatus(serverUrl, profile) {
-    try {
-        const res = await fetch(
-            `${serverUrl.replace(/\/$/, '')}/api/profiles/${profile}/auth/status`,
-            { signal: AbortSignal.timeout(4000) }
-        );
-        if (!res.ok) return null;
-        return await res.json();
-    } catch { return null; }
+    const result = await bgFetch(
+        `${serverUrl.replace(/\/$/, '')}/api/profiles/${profile}/auth/status`
+    );
+    if (!result.ok) return null;
+    return result.body;
 }
 
 async function createProfile(serverUrl, name) {
-    const res = await fetch(serverUrl.replace(/\/$/, '') + '/api/profiles', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name }),
-        signal: AbortSignal.timeout(5000),
-    });
-    return res.ok;
+    const result = await bgFetch(
+        serverUrl.replace(/\/$/, '') + '/api/profiles',
+        'POST',
+        { name }
+    );
+    return result.ok;
 }
 
 async function sendTokenToServer(serverUrl, profile, refreshToken) {
-    const res = await fetch(
+    const result = await bgFetch(
         `${serverUrl.replace(/\/$/, '')}/api/profiles/${profile}/auth/token`,
-        {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ refreshToken }),
-            signal: AbortSignal.timeout(8000),
-        }
+        'POST',
+        { refreshToken }
     );
-    return res.ok;
+    if (!result.ok) throw new Error(result.error || `HTTP ${result.status}`);
+    return true;
 }
 
 // ── Token extraction from page localStorage ───────────────────────────────────
@@ -89,16 +97,40 @@ async function extractTokenFromPage() {
 // ── Profile select population ─────────────────────────────────────────────────
 async function loadProfiles(serverUrl, selectedProfile) {
     const sel = document.getElementById('profile-select');
-    const profiles = await fetchProfiles(serverUrl);
-    if (!profiles) {
-        sel.innerHTML = '<option value="">Server nicht erreichbar</option>';
+    const certWarning = document.getElementById('cert-warning');
+    const certLink = document.getElementById('cert-link');
+    certWarning.style.display = 'none';
+    const result = await fetchProfiles(serverUrl);
+
+    if (result && result.error) {
+        const err = result.error.toLowerCase();
+        // SSL/cert error = server reachable but cert not trusted yet
+        if (err.includes('ssl') || err.includes('cert') || err.includes('security') || err.includes('networkerror') || err.includes('fetch')) {
+            sel.innerHTML = '<option value="">Server nicht erreichbar</option>';
+            // Update the cert link to point to the server URL
+            certLink.onclick = (e) => {
+                e.preventDefault();
+                chrome.tabs.create({ url: serverUrl.replace(/\/$/, '') });
+            };
+            certWarning.style.display = 'block';
+        } else {
+            sel.innerHTML = `<option value="">Fehler &mdash; Server offline?</option>`;
+        }
         return;
     }
+
+    const profiles = result || [];
+    if (!profiles.length) {
+        sel.innerHTML = '<option value="">Keine Profile (Server offline?)</option>';
+        return;
+    }
+
     sel.innerHTML = profiles.map(p => {
         const name = typeof p === 'string' ? p : p.name;
         const selected = name === selectedProfile ? ' selected' : '';
         return `<option value="${name}"${selected}>${name}</option>`;
     }).join('');
+
     if (!profiles.find(p => (typeof p === 'string' ? p : p.name) === selectedProfile) && profiles.length) {
         sel.value = typeof profiles[0] === 'string' ? profiles[0] : profiles[0].name;
     }
@@ -136,10 +168,23 @@ async function init() {
 
 // ── Event Listeners ───────────────────────────────────────────────────────────
 
-// Save server URL
+// Save server URL (on button click)
 document.getElementById('btn-save').addEventListener('click', async () => {
     const url = document.getElementById('server-url').value.trim();
     if (!url) return;
+    await storageSet({ [STORAGE_KEY_URL]: url });
+    document.getElementById('btn-open').href = url;
+    const profile = await getSelectedProfile();
+    await loadProfiles(url, profile);
+    await refreshStatus();
+});
+
+// Also auto-save when user leaves the input field
+document.getElementById('server-url').addEventListener('blur', async () => {
+    const url = document.getElementById('server-url').value.trim();
+    if (!url) return;
+    const current = await getServerUrl();
+    if (url === current) return; // no change
     await storageSet({ [STORAGE_KEY_URL]: url });
     document.getElementById('btn-open').href = url;
     const profile = await getSelectedProfile();
@@ -206,21 +251,26 @@ document.getElementById('btn-send-token').addEventListener('click', async () => 
     }
 
     statusEl.textContent = 'Token gefunden, sende...';
-    const ok = await sendTokenToServer(serverUrl, profile, refreshToken);
-    if (ok) {
-        statusEl.textContent = '✓ Token erfolgreich gesendet!';
-        statusEl.className = 'token-status found';
-        await refreshStatus();
 
-        // Clear cookies and reload page
-        chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-            const tab = tabs[0];
-            if (tab?.id) {
-                chrome.tabs.sendMessage(tab.id, { type: 'CLEAR_AND_RELOAD' });
-            }
-        });
-    } else {
-        statusEl.textContent = '✗ Fehler beim Senden. Server erreichbar?';
+    try {
+        const ok = await sendTokenToServer(serverUrl, profile, refreshToken);
+        if (ok) {
+            statusEl.textContent = '\u2713 Token erfolgreich gesendet!';
+            statusEl.className = 'token-status found';
+            await refreshStatus();
+
+            // Clear cookies and reload page
+            chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+                const tab = tabs[0];
+                if (tab?.id) {
+                    chrome.tabs.sendMessage(tab.id, { type: 'CLEAR_AND_RELOAD' });
+                }
+            });
+        } else {
+            statusEl.textContent = '\u2717 Fehler beim Senden. Server erreichbar?';
+        }
+    } catch (e) {
+        statusEl.textContent = '\u2717 Fehler: ' + (e.message || e.toString());
     }
 
     btn.disabled = false;
@@ -228,3 +278,4 @@ document.getElementById('btn-send-token').addEventListener('click', async () => 
 });
 
 init();
+
