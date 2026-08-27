@@ -10,6 +10,16 @@ function storageSet(obj) {
     return new Promise(resolve => chrome.storage.sync.set(obj, resolve));
 }
 
+// Migrate from old chrome.storage.local if needed
+async function migrateStorage() {
+    const synced = await storageGet({ [STORAGE_KEY_URL]: null });
+    if (synced[STORAGE_KEY_URL]) return; // already in sync, nothing to do
+    const local = await new Promise(r => chrome.storage.local.get({ [STORAGE_KEY_URL]: null }, r));
+    if (local[STORAGE_KEY_URL]) {
+        await storageSet({ [STORAGE_KEY_URL]: local[STORAGE_KEY_URL] });
+    }
+}
+
 // ── UI helpers ────────────────────────────────────────────────────────────────
 function setBadge(id, ok, text) {
     const el = document.getElementById(id);
@@ -156,6 +166,7 @@ async function refreshStatus() {
 
 // ── Init ──────────────────────────────────────────────────────────────────────
 async function init() {
+    await migrateStorage();
     const serverUrl = await getServerUrl();
     const selectedProfile = await getSelectedProfile();
 
@@ -244,7 +255,14 @@ document.getElementById('btn-send-token').addEventListener('click', async () => 
     const refreshToken = await extractTokenFromPage();
 
     if (!refreshToken) {
-        statusEl.textContent = '⚠ Kein Token gefunden. Melde dich auf swisspass.ch an.';
+        // Check if user is even on swisspass.ch
+        const tabs = await new Promise(r => chrome.tabs.query({ active: true, currentWindow: true }, r));
+        const activeUrl = tabs[0]?.url || '';
+        if (!activeUrl.includes('swisspass.ch')) {
+            statusEl.textContent = '⚠ Bitte zuerst swisspass.ch öffnen und einloggen.';
+        } else {
+            statusEl.textContent = '⚠ Kein Token gefunden. Melde dich auf swisspass.ch an.';
+        }
         btn.disabled = false;
         btn.textContent = 'Token senden';
         return;

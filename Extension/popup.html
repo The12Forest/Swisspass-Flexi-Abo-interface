@@ -6,7 +6,7 @@
     <title>SwissPass FlexiAbo Bridge</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: system-ui, sans-serif; width: 340px; background: #0f172a; color: #e2e8f0; transition: width 0.2s ease; }
+        body { font-family: system-ui, sans-serif; width: 340px; min-height: 420px; background: #0f172a; color: #e2e8f0; transition: width 0.2s ease; }
         body.wide { width: 480px; }
         header { display: flex; align-items: center; gap: 10px; padding: 14px 16px 10px; border-bottom: 1px solid #1e293b; }
         header img { width: 32px; height: 32px; }
@@ -47,6 +47,7 @@
         .token-status.found { color: #4ade80; }
         .cert-warning { margin-top: 10px; padding: 10px 12px; background: #1e293b; border: 1px solid #f59e0b; border-radius: 8px; font-size: 12px; color: #fbbf24; display: none; line-height: 1.5; }
         .cert-warning a { color: #fbbf24; font-weight: bold; text-decoration: underline; cursor: pointer; }
+    </style>
 </head>
 <body>
     <header>
