@@ -41,6 +41,16 @@ class ActivateTodayButton(CoordinatorEntity, ButtonEntity):
         self._attr_name = f"SwissPass {self.profile} Activate Today"
         self._attr_unique_id = f"swisspass_{self.profile}_{self.leistung_id}_activate_today"
 
+    @property
+    def device_info(self):
+        """Link this entity to the device."""
+        return {
+            "identifiers": {(DOMAIN, f"{self.profile}_{self.leistung_id}")},
+            "name": f"SwissPass FlexiAbo ({self.profile})",
+            "manufacturer": "SBB / SwissPass",
+            "model": "FlexiAbo",
+        }
+
     async def async_press(self) -> None:
         """Handle the button press."""
         url = f"{self.data['server_url']}/api/profiles/{self.profile}/subscriptions/{self.leistung_id}/days/today"
