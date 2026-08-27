@@ -36,6 +36,10 @@ class SwissPassFlexiAboConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     async def async_step_user(self, user_input=None):
         errors = {}
 
+        # Preserve whatever the user typed so the form doesn't reset on error
+        suggested_url = (user_input or {}).get(CONF_SERVER_URL, "http://localhost:3001")
+        suggested_profile = (user_input or {}).get(CONF_PROFILE, DEFAULT_PROFILE)
+
         if user_input is not None:
             self._server_url = user_input[CONF_SERVER_URL].rstrip("/")
             self._profile = user_input[CONF_PROFILE].strip().lower()
@@ -63,8 +67,8 @@ class SwissPassFlexiAboConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         return self.async_show_form(
             step_id="user",
             data_schema=vol.Schema({
-                vol.Required(CONF_SERVER_URL, default="http://localhost:3001"): str,
-                vol.Required(CONF_PROFILE, default=DEFAULT_PROFILE): str,
+                vol.Required(CONF_SERVER_URL, default=suggested_url): str,
+                vol.Required(CONF_PROFILE, default=suggested_profile): str,
             }),
             errors=errors,
         )

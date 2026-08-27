@@ -1,0 +1,12 @@
+services:
+  swisspass-flexiabo:
+    image: ghcr.io/the12forest/swisspass-flexi-abo-interface:latest
+    container_name: swisspass-flexiabo
+    restart: unless-stopped
+    ports:
+      - "3001:3000"
+    volumes:
+      # Persist token files and profile list across restarts and image updates
+      - ./data:/app/Backend/saves
+    environment:
+      - HTTP_PORT=3000

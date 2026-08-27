@@ -5,9 +5,13 @@ import fs from 'fs';
 import { execFile } from 'child_process';
 import { promisify } from 'util';
 import { fileURLToPath } from 'url';
+import { createRequire } from 'module';
 import log from './Backend/functions/log.js';
 import { TokenManager } from './Backend/routes/token/index.js';
 import { getSubscriptions, getActivatedDays, activateDay, deactivateDay } from './Backend/functions/getSubscriptionID.js';
+
+const require = createRequire(import.meta.url);
+const archiver = require('archiver');
 
 const execFileAsync = promisify(execFile);
 
@@ -207,64 +211,66 @@ app.delete('/api/profiles/:profile/subscriptions/:id/days/:date', async (req, re
 
 // ── Download routes ───────────────────────────────────────────────────────────
 
-async function buildZip(sourceDir, outputFile) {
-    await execFileAsync('python3', ['-c', `
-import zipfile, os, sys
-src = sys.argv[1]
-out = sys.argv[2]
-with zipfile.ZipFile(out, 'w', zipfile.ZIP_DEFLATED) as z:
-    for root, _, files in os.walk(src):
-        for f in files:
-            fp = os.path.join(root, f)
-            z.write(fp, os.path.relpath(fp, src))
-print('ok')
-`, sourceDir, outputFile]);
+/** Zip a directory into outputPath using the archiver npm package (no python needed). */
+function zipDirectory(sourceDir, outputPath) {
+    return new Promise((resolve, reject) => {
+        const output = fs.createWriteStream(outputPath);
+        const archive = archiver('zip', { zlib: { level: 9 } });
+        output.on('close', resolve);
+        archive.on('error', reject);
+        archive.pipe(output);
+        archive.directory(sourceDir, false);
+        archive.finalize();
+    });
 }
 
-/** GET /api/extension/download — serve browser extension ZIP (Chrome + Firefox) */
+/** Zip specific files/dirs into outputPath. entries = [{ src, dest }] */
+function zipEntries(entries, outputPath) {
+    return new Promise((resolve, reject) => {
+        const output = fs.createWriteStream(outputPath);
+        const archive = archiver('zip', { zlib: { level: 9 } });
+        output.on('close', resolve);
+        archive.on('error', reject);
+        archive.pipe(output);
+        for (const { src, dest } of entries) {
+            const stat = fs.statSync(src);
+            if (stat.isDirectory()) {
+                archive.directory(src, dest);
+            } else {
+                archive.file(src, { name: dest });
+            }
+        }
+        archive.finalize();
+    });
+}
+
+/** GET /api/extension/download — browser extension ZIP (Chrome + Firefox) */
 app.get('/api/extension/download', async (req, res) => {
-    const zipPath = path.join(__dirname, 'Frontend', 'swisspass-flexiabo-extension.zip');
+    const tmpPath = path.join(__dirname, 'Backend', 'saves', 'swisspass-extension.zip');
     try {
-        await buildZip(path.join(__dirname, 'Extension'), zipPath);
-        res.download(zipPath, 'swisspass-flexiabo-extension.zip');
+        await zipDirectory(path.join(__dirname, 'Extension'), tmpPath);
+        res.download(tmpPath, 'swisspass-flexiabo-extension.zip');
     } catch (err) {
         res.status(500).json({ error: 'Failed to build extension ZIP: ' + err.message });
     }
 });
 
-/** GET /api/ha-integration/download — serve HACS integration ZIP */
+/** GET /api/ha-integration/download — HACS integration ZIP (hacs.json + custom_components/) */
 app.get('/api/ha-integration/download', async (req, res) => {
-    const zipPath = path.join(__dirname, 'Frontend', 'swisspass-flexiabo-ha.zip');
+    const tmpPath = path.join(__dirname, 'Backend', 'saves', 'swisspass-ha.zip');
     try {
-        // HACS requires custom_components/ and hacs.json at repo root
-        await execFileAsync('python3', ['-c', `
-import zipfile, os, sys
-root = sys.argv[1]
-out = sys.argv[2]
-with zipfile.ZipFile(out, 'w', zipfile.ZIP_DEFLATED) as z:
-    # Add hacs.json
-    hacs = os.path.join(root, 'hacs.json')
-    if os.path.exists(hacs):
-        z.write(hacs, 'hacs.json')
-    # Add custom_components/
-    cc = os.path.join(root, 'custom_components')
-    for r, _, files in os.walk(cc):
-        for f in files:
-            fp = os.path.join(r, f)
-            z.write(fp, os.path.relpath(fp, root))
-`, __dirname, zipPath]);
-        res.download(zipPath, 'swisspass-flexiabo-ha.zip');
+        await zipEntries([
+            { src: path.join(__dirname, 'hacs.json'), dest: 'hacs.json' },
+            { src: path.join(__dirname, 'custom_components'), dest: 'custom_components' },
+        ], tmpPath);
+        res.download(tmpPath, 'swisspass-flexiabo-ha.zip');
     } catch (err) {
         res.status(500).json({ error: 'Failed to build HA integration ZIP: ' + err.message });
     }
 });
 
-// ── Frontend SPA ──────────────────────────────────────────────────────────────
-app.use(express.static(path.join(__dirname, 'Frontend')));
-app.get('*path', (req, res) => {
-    if (req.path.startsWith('/api/')) return res.status(404).json({ error: 'Not found' });
-    res.sendFile(path.join(__dirname, 'Frontend', 'index.html'));
-});
+// ── Static: serve Extension ZIP for direct browser access ────────────────────
+// (No Frontend dir — download links are at /api/extension/download and /api/ha-integration/download)
 
 // ── Start ─────────────────────────────────────────────────────────────────────
 http.createServer(app).listen(httpPort, () => {

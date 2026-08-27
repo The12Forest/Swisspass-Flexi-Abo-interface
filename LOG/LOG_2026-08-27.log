@@ -378,3 +378,11 @@ Check your request and all parameters.<br>
 2026-08-27 18:02:12.858    TokenRouter:    Refresh token file not found, add the token via the API.
 2026-08-27 18:02:12.858    Server:         Token manager could not be created, error: path is not defined
 2026-08-27 18:02:12.875    Server:         Server running at http://localhost:3001
+2026-08-27 18:43:53.306    TokenRouter:    Token Updated for: main
+2026-08-27 18:43:53.307    TokenRouter:    Refresh token file not found, add the token via the API.
+2026-08-27 18:43:53.307    TokenRouter:    Token refresh error: No refresh token available. Please log in via the browser extension or paste a refresh token.
+2026-08-27 18:43:53.307    TokenRouter:    Token Updated for: seccond
+2026-08-27 18:43:53.307    Server:         Loaded profiles: main, seccond
+2026-08-27 18:43:53.321    Server:         Server running at http://localhost:3001
+2026-08-27 18:48:53.338    TokenRouter:    Token refresh error: No refresh token available. Please log in via the browser extension or paste a refresh token.
+2026-08-27 18:53:53.366    TokenRouter:    Token refresh error: No refresh token available. Please log in via the browser extension or paste a refresh token.

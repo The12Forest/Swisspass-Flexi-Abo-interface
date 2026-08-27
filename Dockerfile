@@ -1,7 +1,7 @@
 FROM node:24-alpine
 
-# Install curl (needed for Cloudflare TLS bypass)
-RUN apk add --no-cache curl python3 make g++
+# Only curl needed — no python3
+RUN apk add --no-cache curl
 
 WORKDIR /app
 
@@ -10,10 +10,10 @@ RUN npm ci --omit=dev
 
 COPY . .
 
-# Cookie store is persisted here — mount a volume to survive restarts:
-# docker run -v ./data:/app/data ...
-ENV COOKIE_STORE_PATH=/app/data/cookies.json
-RUN mkdir -p /app/data
+# Token + profile saves are persisted in /app/Backend/saves
+# Mount a volume to survive restarts:
+#   docker run -v ./data:/app/Backend/saves ...
+RUN mkdir -p /app/Backend/saves/tokens
 
 EXPOSE 3000
 ENV HTTP_PORT=3000

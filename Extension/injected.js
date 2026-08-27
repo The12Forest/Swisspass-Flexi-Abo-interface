@@ -1,11 +1,39 @@
 /**
  * Runs in the MAIN world on swisspass.ch
- * Patches window.fetch and XMLHttpRequest to intercept OAuth token responses
+ * Patches window.fetch and XMLHttpRequest to intercept OAuth token responses.
+ * Also handles localStorage scanning on demand.
  */
 (function () {
     console.log('[SwissPass Bridge] Injecting token interceptor...');
 
-    // 1. Patch fetch
+    // ── On-demand localStorage scan (triggered by popup) ─────────────────────
+    window.addEventListener('message', e => {
+        if (e.source !== window) return;
+        if (e.data?.type !== 'SWISSPASS_SCAN_STORAGE') return;
+        const token = findTokenInStorage();
+        window.postMessage({ type: 'SWISSPASS_STORAGE_TOKEN_RESULT', refreshToken: token ?? null }, '*');
+    });
+
+    function findTokenInStorage() {
+        // Known SwissPass OIDC/auth storage key patterns
+        const patterns = ['refresh_token', 'refreshToken', 'oidc.user', 'swisspass', 'token'];
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (!key) continue;
+            const lk = key.toLowerCase();
+            if (!patterns.some(p => lk.includes(p))) continue;
+            try {
+                const raw = localStorage.getItem(key);
+                const val = JSON.parse(raw);
+                // OIDC ClientUser format: { refresh_token: '...' }
+                if (val?.refresh_token) return val.refresh_token;
+                if (val?.refreshToken) return val.refreshToken;
+                if (typeof val === 'string' && val.length > 20) return val;
+            } catch { /* not JSON, skip */ }
+        }
+        return null;
+    }
+
     const originalFetch = window.fetch;
     window.fetch = async function (...args) {
         const response = await originalFetch.apply(this, args);
