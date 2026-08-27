@@ -46,5 +46,9 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
         };
         window.addEventListener('message', handler);
         return true; // keep channel open
+    } else if (msg.type === 'CLEAR_AND_RELOAD') {
+        window.postMessage({ type: 'SWISSPASS_CLEAR_AND_RELOAD' }, '*');
+        sendResponse({ ok: true });
+        return false;
     }
 });

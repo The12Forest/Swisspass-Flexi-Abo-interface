@@ -14,7 +14,7 @@ from .const import DOMAIN, CONF_SERVER_URL, CONF_PROFILE, CONF_LEISTUNG_ID, SCAN
 
 _LOGGER = logging.getLogger(__name__)
 
-PLATFORMS = ["sensor"]
+PLATFORMS = ["sensor", "button"]
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:

@@ -211,6 +211,14 @@ document.getElementById('btn-send-token').addEventListener('click', async () => 
         statusEl.textContent = '✓ Token erfolgreich gesendet!';
         statusEl.className = 'token-status found';
         await refreshStatus();
+
+        // Clear cookies and reload page
+        chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+            const tab = tabs[0];
+            if (tab?.id) {
+                chrome.tabs.sendMessage(tab.id, { type: 'CLEAR_AND_RELOAD' });
+            }
+        });
     } else {
         statusEl.textContent = '✗ Fehler beim Senden. Server erreichbar?';
     }

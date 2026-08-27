@@ -9,27 +9,47 @@
     // ── On-demand localStorage scan (triggered by popup) ─────────────────────
     window.addEventListener('message', e => {
         if (e.source !== window) return;
-        if (e.data?.type !== 'SWISSPASS_SCAN_STORAGE') return;
-        const token = findTokenInStorage();
-        window.postMessage({ type: 'SWISSPASS_STORAGE_TOKEN_RESULT', refreshToken: token ?? null }, '*');
+        if (e.data?.type === 'SWISSPASS_SCAN_STORAGE') {
+            const token = findTokenInStorage();
+            window.postMessage({ type: 'SWISSPASS_STORAGE_TOKEN_RESULT', refreshToken: token ?? null }, '*');
+        } else if (e.data?.type === 'SWISSPASS_CLEAR_AND_RELOAD') {
+            try { sessionStorage.clear(); } catch(e) {}
+            try { localStorage.clear(); } catch(e) {}
+            try {
+                document.cookie.split(";").forEach(function(c) {
+                    document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+                });
+            } catch(e) {}
+            window.location.reload();
+        }
     });
 
     function findTokenInStorage() {
         // Known SwissPass OIDC/auth storage key patterns
         const patterns = ['refresh_token', 'refreshToken', 'oidc.user', 'swisspass', 'token'];
-        for (let i = 0; i < localStorage.length; i++) {
-            const key = localStorage.key(i);
-            if (!key) continue;
-            const lk = key.toLowerCase();
-            if (!patterns.some(p => lk.includes(p))) continue;
+        const stores = [sessionStorage, localStorage];
+        for (const store of stores) {
             try {
-                const raw = localStorage.getItem(key);
-                const val = JSON.parse(raw);
-                // OIDC ClientUser format: { refresh_token: '...' }
-                if (val?.refresh_token) return val.refresh_token;
-                if (val?.refreshToken) return val.refreshToken;
-                if (typeof val === 'string' && val.length > 20) return val;
-            } catch { /* not JSON, skip */ }
+                for (let i = 0; i < store.length; i++) {
+                    const key = store.key(i);
+                    if (!key) continue;
+                    const lk = key.toLowerCase();
+                    if (!patterns.some(p => lk.includes(p))) continue;
+                    try {
+                        const raw = store.getItem(key);
+                        const val = JSON.parse(raw);
+                        // OIDC ClientUser format: { refresh_token: '...' }
+                        if (val?.refresh_token) return val.refresh_token;
+                        if (val?.refreshToken) return val.refreshToken;
+                        if (typeof val === 'string' && val.length > 20) return val;
+                    } catch { 
+                        if (lk === 'refresh_token') {
+                            const raw = store.getItem(key);
+                            if (typeof raw === 'string' && raw.length > 20) return raw;
+                        }
+                    }
+                }
+            } catch {}
         }
         return null;
     }
