@@ -18,7 +18,7 @@ function getHeaders(token) {
 
 /** Get all active FlexiAbo subscriptions */
 async function getSubscriptions(tokenManager) {
-    const token = tokenManager.getCurrentToken();
+    const token = tokenManager.currentToken();
     if (!token) {
         throw new Error('No access token available. Make sure TokenManager.start() has completed.');
     }
@@ -35,7 +35,7 @@ async function getSubscriptions(tokenManager) {
 
 /** Get activated Ausflugstage for a FlexiAbo */
 async function getActivatedDays(tokenManager, leistungId) {
-    const token = tokenManager.getCurrentToken();
+    const token = tokenManager.currentToken();
     const response = await curlFetch(
         `${BASE}/public/api/leistungen/v7/abonnements/${leistungId}/ausflugstage`,
         getHeaders(token)
@@ -51,7 +51,7 @@ async function getActivatedDays(tokenManager, leistungId) {
 
 /** Activate a day — PUT /ausflugstage/YYYY-MM-DD */
 async function activateDay(tokenManager, leistungId, date) {
-    const token = tokenManager.getCurrentToken();
+    const token = tokenManager.currentToken();
     return await curlPut(
         `${BASE}/public/api/leistungen/v7/abonnements/${leistungId}/ausflugstage/${date}`,
         getHeaders(token)
@@ -60,7 +60,7 @@ async function activateDay(tokenManager, leistungId, date) {
 
 /** Deactivate a day — DELETE /ausflugstage/YYYY-MM-DD */
 async function deactivateDay(tokenManager, leistungId, date) {
-    const token = tokenManager.getCurrentToken();
+    const token = tokenManager.currentToken();
     return await curlDelete(
         `${BASE}/public/api/leistungen/v7/abonnements/${leistungId}/ausflugstage/${date}`,
         getHeaders(token)

@@ -215,7 +215,7 @@ app.delete('/api/profiles/:profile/subscriptions/:id/days/:date', async (req, re
 function zipDirectory(sourceDir, outputPath) {
     return new Promise((resolve, reject) => {
         const output = fs.createWriteStream(outputPath);
-        const archive = archiver('zip', { zlib: { level: 9 } });
+        const archive = new archiver.ZipArchive({ zlib: { level: 9 } });
         output.on('close', resolve);
         archive.on('error', reject);
         archive.pipe(output);
@@ -228,7 +228,7 @@ function zipDirectory(sourceDir, outputPath) {
 function zipEntries(entries, outputPath) {
     return new Promise((resolve, reject) => {
         const output = fs.createWriteStream(outputPath);
-        const archive = archiver('zip', { zlib: { level: 9 } });
+        const archive = new archiver.ZipArchive({ zlib: { level: 9 } });
         output.on('close', resolve);
         archive.on('error', reject);
         archive.pipe(output);
